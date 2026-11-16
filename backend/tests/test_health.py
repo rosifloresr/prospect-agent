@@ -1,7 +1,9 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.exc import OperationalError
+
 from app.database import get_db
 from app.main import app
+
 
 class FakeSessionOk:
     def execute(self, *_args, **_kwargs):

@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+
 from app.routers import health
+
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Prospect Agent", version="0.1.0")
