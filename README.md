@@ -23,7 +23,10 @@ source .venv/bin/activate        # En Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 cp .env.example .env
 
-# 3. Arrancar la API (siempre desde la carpeta backend/)
+# 3. Crear las tablas (siempre desde backend/)
+alembic upgrade head
+
+# 4. Arrancar la API (siempre desde la carpeta backend/)
 uvicorn app.main:app --reload
 ```
 
