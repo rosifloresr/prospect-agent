@@ -36,3 +36,4 @@ cd backend
 pytest
 ruff check .
 ```
+ru

@@ -1,6 +1,8 @@
 from collections.abc import Iterator
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+
 from app.config import get_settings
 
 # pool_pre_ping: antes de reutilizar una conexión del pool comprueba que siga viva,
