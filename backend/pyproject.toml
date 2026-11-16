@@ -30,3 +30,9 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
+#Las migraciones se generan automáticamente: no las reformateamos a mano
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint.per-file-ignores]
+#conftest define variables de entorno antes de importar la app, por eso importa "tarde".
+"tests/conftest.py" = ["E402"]
