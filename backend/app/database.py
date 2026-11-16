@@ -1,5 +1,5 @@
 from collections.abc import Iterator
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 from app.config import get_settings
 
