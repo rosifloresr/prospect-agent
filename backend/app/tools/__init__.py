@@ -1,6 +1,6 @@
 import logging
 from app.config import Settings, get_settings
-from app.tools.read_file import ReadFileTool
+from backend.app.tools.read_page import ReadFileTool
 from app.tools.read_page import ReadPageTool
 from app.tools.registry import ToolRegistry, ToolResult
 from app.tools.web_search import WebSearchTool
