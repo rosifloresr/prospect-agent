@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     # SecretStr: al imprimir la configuración (en un log o un error) la clave se ve como ********.
     # Para usarla hay que pedirla de forma explícita con .get_secret_value().
     tavily_api_key: SecretStr = SecretStr("")
+    notes_dir: Path = Path("data/notes")
     
     #extra="ignore": si el .env tiene variables que todavía no usamos, no falla.
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")

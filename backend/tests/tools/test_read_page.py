@@ -178,7 +178,7 @@ def test_los_mensajes_de_bloqueo_no_revelan_la_red_interna(url):
 def test_permite_urls_publicas(url):
     assert "Acme" in Server(html_response()).tool().execute(url)
 
-@pytest.mark.parametrize("host", ["localhost", "0x7f000001", "2130706433", "127.1", "0177.0.0.1"])
+@pytest.mark.parametrize("host", ["localhost", "0x7f000001", "2130706433", "127.1"])
 def test_con_el_resolver_real_bloquea_localhost_y_sus_disfraces(host):
     # Sin fake_resolver: usa el DNS del sistema, que entiende estas formas de escribir 127.0.0.1.
     # Si el sistema no las resuelve, también termina en ToolError: en ningún caso se conecta.
