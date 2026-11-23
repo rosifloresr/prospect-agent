@@ -129,6 +129,12 @@ def test_error_de_conexion_se_informa():
     with pytest.raises(ToolError, match="No se pudo descargar"):
         Server(boom).tool().execute("https://example.test/")
 
+def test_una_url_que_httpx_rechaza_es_un_error_controlado():
+    # Reproduce un sistema cuyo DNS resuelve "0177.0.0.1" a una IP pública (pasa nuestro chequeo),
+    # pero httpx se niega a parsearla. Debe terminar en ToolError, nunca en una excepción suelta.
+    tool = ReadPageTool(resolver=lambda _host: ["177.0.0.1"])
+    with pytest.raises(ToolError, match="La URL no es válida"):
+        tool.execute("http://0177.0.0.1/")
 # ------------------------------------------------------------------ SSRF: URLs bloqueadas
 BLOCKED_URLS = [
     "file:///etc/passwd",
@@ -178,7 +184,7 @@ def test_los_mensajes_de_bloqueo_no_revelan_la_red_interna(url):
 def test_permite_urls_publicas(url):
     assert "Acme" in Server(html_response()).tool().execute(url)
 
-@pytest.mark.parametrize("host", ["localhost", "0x7f000001", "2130706433", "127.1"])
+@pytest.mark.parametrize("host", ["localhost", "0x7f000001", "2130706433", "127.1", "0177.0.0.1"])
 def test_con_el_resolver_real_bloquea_localhost_y_sus_disfraces(host):
     # Sin fake_resolver: usa el DNS del sistema, que entiende estas formas de escribir 127.0.0.1.
     # Si el sistema no las resuelve, también termina en ToolError: en ningún caso se conecta.

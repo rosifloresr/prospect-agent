@@ -3,8 +3,10 @@ import socket
 from collections.abc import Callable
 from typing import Any, ClassVar
 from urllib.parse import urljoin, urlparse
+
 import httpx
 from bs4 import BeautifulSoup
+
 from app.tools.base import Tool, ToolError, truncate
 
 ALLOWED_PORTS = {80, 443}
@@ -28,12 +30,14 @@ NOISE_TAGS = (
 # reemplazarlo en los tests sin tocar la red.
 Resolver = Callable[[str], list[str]]
 
+
 def default_resolver(host: str) -> list[str]:
     try:
         infos = socket.getaddrinfo(host, None, proto=socket.IPPROTO_TCP)
     except socket.gaierror as exc:
         raise ToolError(f"No se pudo resolver el dominio '{host}'.") from exc
     return sorted({info[4][0] for info in infos})
+
 
 def is_public_ip(address: str) -> bool:
     """True solo si la dirección es de internet público."""
@@ -44,6 +48,7 @@ def is_public_ip(address: str) -> bool:
     # is_global es False para privadas, loopback, link-local y CGNAT, pero True para multicast,
     # por eso se excluye aparte.
     return ip.is_global and not ip.is_multicast
+
 
 def extract_text(html: str) -> tuple[str, str]:
     """Devuelve (título, texto legible) de una página HTML."""
@@ -105,6 +110,9 @@ class ReadPageTool(Tool):
                     return self._read(response, current)
             except httpx.TimeoutException as exc:
                 raise ToolError("La página tardó demasiado en responder.") from exc
+            except httpx.InvalidURL as exc:
+                # InvalidURL NO es subclase de HTTPError: sin esta línea escaparía sin controlar.
+                raise ToolError("La URL no es válida.") from exc
             except httpx.HTTPError as exc:
                 raise ToolError("No se pudo descargar la página.") from exc
         raise ToolError("La página redirige demasiadas veces.")
