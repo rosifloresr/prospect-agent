@@ -9,6 +9,8 @@ dependencies = [
     "sqlalchemy>=2.0",
     "psycopg[binary]>=3.2",
     "pydantic-settings>=2.5",
+    "anthropic>=2.12",
+
 ]
 
 [project.optional-dependencies]
@@ -36,3 +38,4 @@ extend-exclude = ["alembic/versions"]
 [tool.ruff.lint.per-file-ignores]
 #conftest define variables de entorno antes de importar la app, por eso importa "tarde".
 "tests/conftest.py" = ["E402"]
+
