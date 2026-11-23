@@ -16,3 +16,7 @@ dist/
 .DS_Store
 .idea/
 .vscode/
+
+# Notas internas (pueden tener datos de clientes). Solo se sube el ejemplo.
+backend/data/notes/*
+!backend/data/notes/ejemplo-*.md
