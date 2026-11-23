@@ -48,6 +48,8 @@ El archivo `.env` real **no se sube a Git**.
 | `TAVILY_API_KEY` | No | Clave para `buscar_web`. Sin ella, esa herramienta no se ofrece |
 | `NOTES_DIR` | No | Carpeta de notas internas (por defecto `data/notes`) |
 | `APP_ENV` | No | Entorno de ejecución (por defecto `development`) |
+| `ANTHROPIC_API_KEY` | Sí, para ejecutar el agente | Clave de la API de Anthropic |
+| `AGENT_MAX_ITERATIONS` | No | Máximo de vueltas del agente (por defecto 8) |
 
 ## API
 
@@ -95,6 +97,16 @@ pytest tests/tools      # solo las herramientas
 ruff check .
 alembic check           # verifica que los modelos coincidan con la base
 ```
+
+## Probar el agente desde la terminal
+
+```bash
+cd backend
+python -m app.agent "Laura Gómez" "Acme Logística" --role "Directora" --goal "Presentar la demo"
+```
+
+Muestra cada paso del agente y el informe final. **Consume crédito de la API de Anthropic**
+(centavos por informe). Sin `ANTHROPIC_API_KEY` termina con un error claro.
 
 ## Estructura
 
